@@ -1,5 +1,5 @@
 {
-  "name": "blogful-api-auth",
+  "name": "tic-tac-toe-server",
   "version": "0.0.1",
   "description": "",
   "main": "src/server.js",
@@ -13,7 +13,7 @@
     "deploy": "git push heroku master"
   },
   "keywords": [],
-  "author": "Thomas `tomatao` Hudspith-Tatham <iammotivated@gmail.com>",
+  "author": "Julio Hernandez",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
