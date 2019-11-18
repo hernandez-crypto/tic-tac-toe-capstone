@@ -5,30 +5,52 @@ import Legend from '../Gameboard/Legend/Legend';
 
 export default class App extends Component {
   state = {
-    playerOne: [],
-    pOneScore: 0,
-    playerTwo: [],
-    pTwoScore: 0,
+    playerOne: {
+      moves: [],
+      computer: false,
+      score: 0,
+    },
+    playerTwo: {
+      moves: [],
+      computer: false,
+      score: 0,
+    },
     board: ['', '', '', '', '', '', '', '', ''],
     currentPlayer: 1,
     count: 0,
   };
 
-  restartGame = (winner) => {
+  restartGame = winner => {
     this.setState({
-      playerOne: [],
-      playerTwo: [],
+      playerOne: {
+        moves: [],
+        computer: this.state.playerOne.computer,
+        score: this.state.playerOne.score,
+      },
+      playerTwo: {
+        moves: [],
+        computer: this.state.playerTwo.computer,
+        score: this.state.playerTwo.score,
+      },
       board: ['', '', '', '', '', '', '', '', ''],
       count: 0,
     });
     if (winner === 1) {
       this.setState({
-        pOneScore: this.state.pOneScore + 1,
+        playerOne: {
+          moves: [],
+          computer: this.state.playerOne.computer,
+          score: this.state.playerOne.score + 1,
+        },
       });
     }
     if (winner === 2) {
       this.setState({
-        pTwoScore: this.state.pTwoScore + 1,
+        playerTwo: {
+          moves: [],
+          computer: this.state.playerTwo.computer,
+          score: this.state.playerTwo.score + 1,
+        },
       });
     }
   };
@@ -44,16 +66,16 @@ export default class App extends Component {
       [0, 4, 8],
       [2, 4, 6],
     ];
-    winCombos.forEach((item) => {
+    winCombos.forEach(item => {
       let [a, b, c] = item;
       let { playerOne, playerTwo } = this.state;
+      let one = [...playerOne.moves, parseInt(squareNumber)];
+      let two = [...playerTwo.moves, parseInt(squareNumber)];
       if (currentPlayer === 1) {
-        let one = [...playerOne, parseInt(squareNumber)];
         if (one.includes(a) && one.includes(b) && one.includes(c)) {
           return this.restartGame(currentPlayer);
         }
       } else if (currentPlayer === 2) {
-        let two = [...playerTwo, parseInt(squareNumber)];
         if (two.includes(a) && two.includes(b) && two.includes(c)) {
           return this.restartGame(currentPlayer);
         }
@@ -64,14 +86,18 @@ export default class App extends Component {
     });
   };
 
-  setChoice = (squareNumber) => {
+  setChoice = squareNumber => {
     let { playerOne, playerTwo, currentPlayer } = this.state;
-    let board = [...this.state.board]; 
+    let board = [...this.state.board];
     board[squareNumber] = currentPlayer;
     if (currentPlayer === 1) {
       this.setState({
         board,
-        playerOne: [...playerOne, parseInt(squareNumber)],
+        playerOne: {
+          moves: [...playerOne.moves, parseInt(squareNumber)],
+          computer: this.state.playerOne.computer,
+          score: this.state.playerOne.score,
+        },
         currentPlayer: 2,
         count: this.state.count + 1,
       });
@@ -79,7 +105,11 @@ export default class App extends Component {
     if (currentPlayer === 2) {
       this.setState({
         board,
-        playerTwo: [...playerTwo, parseInt(squareNumber)],
+        playerTwo: {
+          moves: [...playerTwo.moves, parseInt(squareNumber)],
+          computer: this.state.playerTwo.computer,
+          score: this.state.playerTwo.score,
+        },
         currentPlayer: 1,
         count: this.state.count + 1,
       });
@@ -96,7 +126,11 @@ export default class App extends Component {
           currentPlayer={this.state.currentPlayer}
           board={this.state.board}
         />
-        <Legend Players={this.state} />
+        <Legend
+          currentPlayer={this.state.currentPlayer}
+          playerOne={this.state.playerOne.score}
+          playerTwo={this.state.playerTwo.score}
+        />
       </>
     );
   }
