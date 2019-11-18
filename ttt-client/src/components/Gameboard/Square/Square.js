@@ -9,15 +9,12 @@ export default class Square extends Component {
 
   render() {
     const { id } = this.props;
-    let value = '';
-    if (this.props.currentValue === 1) {
-      value = 'X';
-    }
-    if (this.props.currentValue === 2) {
-      value = 'O';
-    }
+    let value =
+      typeof this.props.currentValue === 'number'
+        ? ''
+        : this.props.currentValue;
     return (
-      <div id={`${id}`} className='box' onClick={this.handleClick}>
+      <div id={`${id}`} className="box" onClick={this.handleClick}>
         <h3>{value}</h3>
       </div>
     );

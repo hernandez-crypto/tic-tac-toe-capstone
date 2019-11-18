@@ -2,54 +2,59 @@ import React, { Component } from 'react';
 import './App.css';
 import Board from '../Gameboard/Board/Board';
 import Legend from '../Gameboard/Legend/Legend';
+import ComputerPlayer from '../../ComputerPlayer';
 
 export default class App extends Component {
   state = {
     playerOne: {
+      symbol: 'X',
       moves: [],
-      computer: false,
+      computer: 0,
       score: 0,
     },
     playerTwo: {
+      symbol: 'O',
       moves: [],
-      computer: false,
+      computer: 1,
       score: 0,
     },
-    board: ['', '', '', '', '', '', '', '', ''],
+    board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
     currentPlayer: 1,
     count: 0,
   };
 
+  componentDidMount() {
+    this.computer = new ComputerPlayer(this.setChoice);
+  }
+
   restartGame = winner => {
     this.setState({
       playerOne: {
+        ...this.state.playerOne,
         moves: [],
-        computer: this.state.playerOne.computer,
-        score: this.state.playerOne.score,
       },
       playerTwo: {
+        ...this.state.playerTwo,
         moves: [],
-        computer: this.state.playerTwo.computer,
-        score: this.state.playerTwo.score,
       },
-      board: ['', '', '', '', '', '', '', '', ''],
+      board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
       count: 0,
     });
     if (winner === 1) {
       this.setState({
         playerOne: {
-          moves: [],
-          computer: this.state.playerOne.computer,
+          ...this.state.playerOne,
           score: this.state.playerOne.score + 1,
+          moves: [],
         },
       });
     }
     if (winner === 2) {
       this.setState({
         playerTwo: {
-          moves: [],
-          computer: this.state.playerTwo.computer,
+          ...this.state.playerTwo,
           score: this.state.playerTwo.score + 1,
+          moves: [],
         },
       });
     }
@@ -89,14 +94,19 @@ export default class App extends Component {
   setChoice = squareNumber => {
     let { playerOne, playerTwo, currentPlayer } = this.state;
     let board = [...this.state.board];
-    board[squareNumber] = currentPlayer;
+    if (
+      board[squareNumber] === this.state.playerOne.symbol ||
+      board[squareNumber] === this.state.playerTwo.symbol
+    )
+      return;
+    board[squareNumber] =
+      currentPlayer === 1 ? playerOne.symbol : playerTwo.symbol;
     if (currentPlayer === 1) {
       this.setState({
         board,
         playerOne: {
+          ...this.state.playerOne,
           moves: [...playerOne.moves, parseInt(squareNumber)],
-          computer: this.state.playerOne.computer,
-          score: this.state.playerOne.score,
         },
         currentPlayer: 2,
         count: this.state.count + 1,
@@ -106,9 +116,8 @@ export default class App extends Component {
       this.setState({
         board,
         playerTwo: {
+          ...this.state.playerTwo,
           moves: [...playerTwo.moves, parseInt(squareNumber)],
-          computer: this.state.playerTwo.computer,
-          score: this.state.playerTwo.score,
         },
         currentPlayer: 1,
         count: this.state.count + 1,
@@ -117,12 +126,30 @@ export default class App extends Component {
     this.determineWinner(currentPlayer, squareNumber);
   };
 
+  componentDidUpdate() {
+    let player =
+      this.state.currentPlayer === 1
+        ? this.state.playerOne
+        : this.state.playerTwo;
+    if (player.computer > 0) {
+      this.computer.makeMove(
+        player.computer,
+        this.state.board,
+        this.state.currentPlayer === 1 ? true : false
+      );
+    }
+  }
+
   render() {
+    let player =
+      this.state.currentPlayer === 1
+        ? this.state.playerOne
+        : this.state.playerTwo;
     return (
       <>
         <h1>Tic Tac Toe</h1>
         <Board
-          setChoice={this.setChoice}
+          setChoice={player.computer === 0 ? this.setChoice : () => {}}
           currentPlayer={this.state.currentPlayer}
           board={this.state.board}
         />
