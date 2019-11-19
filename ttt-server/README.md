@@ -1,4 +1,4 @@
-# Blogful API Auth!
+# Tic-Tac-Toe Server!
 
 ## Scripts
 

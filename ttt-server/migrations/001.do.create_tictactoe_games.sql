@@ -17,6 +17,6 @@ CREATE TABLE game (
     date_ended TIMESTAMP,
     player_started_id INTEGER,
     player_joined_id INTEGER,
-    board 
+    board ??? i dont know what should go here
 );
 
