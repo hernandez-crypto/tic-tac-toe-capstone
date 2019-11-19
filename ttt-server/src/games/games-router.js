@@ -4,40 +4,38 @@ const GamesService = require('./games-service');
 const gamesRouter = express.Router();
 
 gamesRouter.route('/').get((req, res, next) => {
-  GamesService.getAllGames(req.app.get('db'))
-    .then(games => {
-      res.json(games.map(GamesService.serializeGame));
-    })
-    .catch(next);
+  // GamesService.CreateNewGame(req.app.get('db'))
+  //   .then(games => {
+  //     //request a new row to be made in the SQL database for two players to join
+  //     res.json(games); //respond with an ID for a lobby for the two players
+  //   })
+  //   .catch(next);
 });
 
 gamesRouter
   .route('/:game_id')
   .all(checkGameExists)
-  .get((req, res) => {
-    res.json(GamesService.serializeGame(res.game));
-  });
-
-gamesRouter
-  .route('/:game_id/comments/')
-  .all(checkGameExists)
+  .post((req, res, next) => {
+    // GamesService.UpdateCurrentGame(req.app.get('db'), req.params.game_id)
+    //   .then(board => {  //this route should be used when either player makes a new move on the board
+    //     res.json(board);
+    //   })
+    //   .catch(next);
+  })
   .get((req, res, next) => {
-    GamesService.getCommentsForGame(
-      req.app.get('db'),
-      req.params.game_id
-    )
-      .then(comments => {
-        res.json(comments.map(GamesService.serializeGameComment));
-      })
-      .catch(next);
+    // GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
+    //   .then(board => { //the client should be requesting this route after a player has made a move to update their board
+    //     res.json(board); //the specific service may change as the game state could be running or it could be a game that as ended
+    //   })
+    //   .catch(next);
   });
 
 /* async/await syntax for promises */
 async function checkGameExists(req, res, next) {
   try {
-    const game = await GamesService.getById(
-      req.app.get('db'),
-      req.params.game_id
+    const game = await GamesService.RespondWithCurrentGame(
+      req.app.get('db'), //this is ancillary middlewear, should never be utilized because the app should be seamless to the point that an incorrect
+      req.params.game_id //roomId will never be generated
     );
 
     if (!game)
