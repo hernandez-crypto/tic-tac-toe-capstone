@@ -14,7 +14,7 @@ const GamesService = {
   },
   UpdateCurrentGame(knex, gameId, playerId, index) {
     return knex('game') //update the game that the player is currently in                                    //POST
-      .where({ gameId })
+      .where({ gameId }) //there needs to be a check that ensures that the index hasn't been filled
       .update(index); //  <-- this could potentially be wrong. We should be updating the board value, which also contains the sqaures(indexes)
   },
   RespondWithCurrentGame(knex, gameId, playerId) {
