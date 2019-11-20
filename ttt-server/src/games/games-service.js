@@ -4,22 +4,36 @@ const xss = require('xss');
 
 const GamesService = {
   CreateNewGame(knex, playerId) {
-    return knex
-      .insert(playerId) //makes a new instance on the db that allows the sender to create an entry           //GET
-      .into('game')
-      .returning('what ever the roooms id is')
+    return (
+      knex //makes a new instance on the db that allows the sender to create an entry           //GET
+        .insert({ player_started_id: playerId })
+        .into('board')
+        // .returning(gameId) // <-- this may be incorrect, needs to return the entire object to get the board updated
+        .then(data => {
+          //
+          console.log(data);
+        })
+    );
+  },
+  UpdateCurrentGame(knex, game_id, index, playerId) {
+    // console.log(index);
+    // knex('books')
+    // .where('published_date', '<', 2000)
+    // .update({ status: 'archived', thisKeyIsSkipped: undefined })
+    return knex('board') //update the game that the player is currently in
+      .where({ game_id })
+      .update({ [index]: playerId }) //POST
       .then(data => {
         console.log(data);
       });
+    //there needs to be a check that ensures that the index hasn't been filled
+    //  <-- this could potentially be wrong. We should be updating the board value, which also contains the sqaures(indexes)
   },
-  UpdateCurrentGame(knex, gameId, playerId, index) {
-    return knex('game') //update the game that the player is currently in                                    //POST
-      .where({ gameId }) //there needs to be a check that ensures that the index hasn't been filled
-      .update(index); //  <-- this could potentially be wrong. We should be updating the board value, which also contains the sqaures(indexes)
-  },
-  RespondWithCurrentGame(knex, gameId, playerId) {
+  RespondWithCurrentGame(knex, game_id) {
     return knex //respond with the opponents move to reload the opposing players board               //GET
-      .where({ gameId })
+      .select('*')
+      .from('board')
+      .where({ game_id })
       .first();
   },
   // RespondWithEndGameWinner(knex) {
