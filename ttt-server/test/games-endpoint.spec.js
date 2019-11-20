@@ -12,4 +12,8 @@ describe('Games endpoint', function() {
   });
 
   after('disconnect from db', () => db.destroy());
+
+  describe(`GET /`, () => {
+      it('')
+  } )
 });
