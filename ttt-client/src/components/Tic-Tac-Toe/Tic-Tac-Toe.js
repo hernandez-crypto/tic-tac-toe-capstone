@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Board from './Gameboard/Board/Board';
 import Legend from './Gameboard/Legend/Legend';
 import ComputerPlayer from './ComputerPlayer';
+import './Tic-Tac-Toe.css';
 
 export default class TicTacToe extends Component {
   state = {
@@ -14,7 +15,7 @@ export default class TicTacToe extends Component {
     playerTwo: {
       symbol: 'O',
       moves: [],
-      computer: 1,
+      computer: 0,
       score: 0,
     },
     board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -49,6 +50,8 @@ export default class TicTacToe extends Component {
           moves: [],
           count: 0,
         },
+        board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        count: 0,
       });
     }
     if (winner === 2) {
@@ -59,6 +62,8 @@ export default class TicTacToe extends Component {
           moves: [],
           count: 0,
         },
+        board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        count: 0,
       });
     }
   };
@@ -88,8 +93,9 @@ export default class TicTacToe extends Component {
           return this.restartGame(currentPlayer);
         }
       }
-      if (this.state.count === 9) {
+      if (this.state.count === 10) {
         this.restartGame();
+        //announce that there was a tie
       }
     });
   };
@@ -149,8 +155,7 @@ export default class TicTacToe extends Component {
         ? this.state.playerOne
         : this.state.playerTwo;
     return (
-      <>
-        <h1>Tic Tac Toe</h1>
+      <div className="tic-tac-toe-board">
         <Board
           setChoice={player.computer === 0 ? this.setChoice : () => {}}
           currentPlayer={this.state.currentPlayer}
@@ -161,7 +166,7 @@ export default class TicTacToe extends Component {
           playerOne={this.state.playerOne.score}
           playerTwo={this.state.playerTwo.score}
         />
-      </>
+      </div>
     );
   }
 }

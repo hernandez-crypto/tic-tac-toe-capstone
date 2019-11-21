@@ -6,8 +6,8 @@ export default class TTTMainPage extends Component {
   render() {
     return (
       <Section className="TTTMainPage">
-        <h2>404 - Page not found</h2>
-        <p>Try going back to your previous page.</p>
+        {/* <h2>Tic-Tac-Toe</h2>
+        <p>Featuring Unbeatable AI</p> */}
         <TicTacToe />
       </Section>
     );
