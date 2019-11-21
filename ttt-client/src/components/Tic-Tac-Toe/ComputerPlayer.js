@@ -10,6 +10,8 @@ export default class ComputerPlayer {
         return this.mediumMode(board);
       case 3:
         return this.hardMode(board, maximizing, 0);
+      default:
+        this.easyMode(board);
     }
   };
   easyMode = board => {

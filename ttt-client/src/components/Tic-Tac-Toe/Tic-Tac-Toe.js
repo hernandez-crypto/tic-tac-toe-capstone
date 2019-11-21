@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import Board from '../Gameboard/Board/Board';
-import Legend from '../Gameboard/Legend/Legend';
-import ComputerPlayer from '../../ComputerPlayer';
+import Board from './Gameboard/Board/Board';
+import Legend from './Gameboard/Legend/Legend';
+import ComputerPlayer from './ComputerPlayer';
 
 export default class TicTacToe extends Component {
   state = {
@@ -28,24 +27,27 @@ export default class TicTacToe extends Component {
   }
 
   restartGame = winner => {
-    this.setState({
-      playerOne: {
-        ...this.state.playerOne,
-        moves: [],
-      },
-      playerTwo: {
-        ...this.state.playerTwo,
-        moves: [],
-      },
-      board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-      count: 0,
-    });
+    if (!winner) {
+      this.setState({
+        playerOne: {
+          ...this.state.playerOne,
+          moves: [],
+        },
+        playerTwo: {
+          ...this.state.playerTwo,
+          moves: [],
+        },
+        board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+        count: 0,
+      });
+    }
     if (winner === 1) {
       this.setState({
         playerOne: {
           ...this.state.playerOne,
           score: this.state.playerOne.score + 1,
           moves: [],
+          count: 0,
         },
       });
     }
@@ -55,6 +57,7 @@ export default class TicTacToe extends Component {
           ...this.state.playerTwo,
           score: this.state.playerTwo.score + 1,
           moves: [],
+          count: 0,
         },
       });
     }
