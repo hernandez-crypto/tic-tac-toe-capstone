@@ -28,38 +28,26 @@ export default class TicTacToe extends Component {
   }
 
   handleEndGame = winner => {
-    if (!winner) {
-      this.setState({
-        playerOne: {
-          ...this.state.playerOne,
-        },
-        playerTwo: {
-          ...this.state.playerTwo,
-        },
-        count: -1,
-      });
-    }
     if (winner === 1) {
       this.setState({
         playerOne: {
           ...this.state.playerOne,
           score: this.state.playerOne.score + 1,
         },
-        playerTwo: {
-          ...this.state.playerTwo,
-        },
         count: -1,
       });
     }
     if (winner === 2) {
+      console.log(this.state.playerTwo);
       this.setState({
         playerTwo: {
           ...this.state.playerTwo,
           score: this.state.playerTwo.score + 1,
         },
-        playerOne: {
-          ...this.state.playerOne,
-        },
+        count: -1,
+      });
+    } else {
+      this.setState({
         count: -1,
       });
     }
@@ -80,8 +68,8 @@ export default class TicTacToe extends Component {
     });
     let clearBoxes = Object.values(document.getElementsByClassName('box'));
     clearBoxes.forEach(box => {
-      box.classList.remove('red');
-      box.classList.remove('blue');
+      box.classList.remove('oneWinner');
+      box.classList.remove('twoWinner');
     });
   };
 
@@ -108,7 +96,7 @@ export default class TicTacToe extends Component {
             document.getElementById(b),
             document.getElementById(c),
           ];
-          threeRow.forEach(box => box.classList.add('red'));
+          threeRow.forEach(box => box.classList.add('oneWinner'));
           return this.handleEndGame(currentPlayer);
         }
       } else if (currentPlayer === 2) {
@@ -118,13 +106,12 @@ export default class TicTacToe extends Component {
             document.getElementById(b),
             document.getElementById(c),
           ];
-          threeRow.forEach(box => box.classList.add('blue'));
+          threeRow.forEach(box => box.classList.add('twoWinner'));
           return this.handleEndGame(currentPlayer);
         }
       }
-      if (this.state.count === 9) {
+      if (this.state.count === 8) {
         this.handleEndGame();
-        //announce that there was a tie
       }
     });
   };
@@ -140,7 +127,6 @@ export default class TicTacToe extends Component {
       board[squareNumber] === this.state.playerTwo.symbol ||
       this.state.count < 0
     )
-      // prevent square that has already been taken from being claimed
       return;
     board[squareNumber] =
       currentPlayer === 1 ? playerOne.symbol : playerTwo.symbol;

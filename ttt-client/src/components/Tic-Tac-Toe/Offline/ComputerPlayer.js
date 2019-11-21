@@ -14,14 +14,19 @@ export default class ComputerPlayer {
         this.easyMode(board);
     }
   };
+
   easyMode = board => {
+    let options = [];
     board.forEach((square, index) => {
       if (typeof square === 'number') {
-        this.setChoice(index);
-        return; // computer bot that chooses from the available spots on the board randomly
+        options = [...options, index];
+        return;
       }
     });
+    let choice = options[Math.floor(Math.random() * options.length)];
+    this.setChoice(choice);
   };
+
   mediumMode = () => {
     // computer bot that chooses from the available spots on the board randomly & with the hard algorithm
   };

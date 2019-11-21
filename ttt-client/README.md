@@ -1,8 +1,8 @@
-# Thingful Client
+# Tic-Tac-Toe Client !
 
 ## Setting Up
 
-- Install dependencies: `npm install`
+- Install dependencies: `npm i`
 
 ## Scripts
 

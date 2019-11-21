@@ -11,10 +11,10 @@
   align-items: center;
   cursor: pointer;
 }
-.red {
+.oneWinner {
   background-color: red;
 }
 
-.blue {
+.twoWinner {
   background-color: blue;
 }

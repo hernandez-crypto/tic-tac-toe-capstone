@@ -8,7 +8,7 @@ export default class TTTOnline extends Component {
     return (
       <div>
         <Section className="TTTPage">
-          <p>Unbeatable AI coming soon</p>
+          <p>Play with a friend!</p>
           <TicTacToeOnline />
           <Link to="/tic-tac-toe">
             <h3>Play Offline</h3>
