@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 /* eslint-disable quotes */
-const xss = require('xss');
-
 const GamesService = {
   CreateNewGame(knex, playerId) {
     return knex //makes a new instance on the db that allows the sender to create an entry

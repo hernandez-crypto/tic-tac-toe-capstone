@@ -17,11 +17,7 @@ gamesRouter
   .route('/:game_id')
   .all(checkGameExists)
   .get((req, res, next) => {
-    GamesService.RespondWithCurrentGame(
-      req.app.get('db'),
-      req.params.game_id,
-      req.params.player_id
-    )
+    GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
       .then(board => {
         //the client should be requesting this route after a player has made a move to update their board
         res.json(board); //the specific service may change as the game state could be running or it could be a game that as ended
