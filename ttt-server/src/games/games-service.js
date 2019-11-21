@@ -1,6 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable quotes */
 const GamesService = {
+  getUserWithUserName(db, user_name) {
+    return db('users')
+      .where({ user_name })
+      .first();
+  },
   CreateNewGame(knex, playerId) {
     return knex //makes a new instance on the db that allows the sender to create an entry
       .insert({ player_started_id: playerId })

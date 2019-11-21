@@ -20,6 +20,7 @@ export default class TicTacToe extends Component {
     },
     board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
     currentPlayer: 1,
+    round: 0,
     count: 0,
   };
 
@@ -38,7 +39,6 @@ export default class TicTacToe extends Component {
       });
     }
     if (winner === 2) {
-      console.log(this.state.playerTwo);
       this.setState({
         playerTwo: {
           ...this.state.playerTwo,
@@ -65,6 +65,7 @@ export default class TicTacToe extends Component {
       },
       board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
       count: 0,
+      round: this.state.round + 1,
     });
     let clearBoxes = Object.values(document.getElementsByClassName('box'));
     clearBoxes.forEach(box => {
@@ -170,14 +171,10 @@ export default class TicTacToe extends Component {
   }
 
   render() {
-    let player =
-      this.state.currentPlayer === 1
-        ? this.state.playerOne
-        : this.state.playerTwo;
     return (
       <div className="tic-tac-toe-board">
         <Board
-          setChoice={player.computer === 0 ? this.setChoice : () => {}}
+          setChoice={this.setChoice}
           currentPlayer={this.state.currentPlayer}
           board={this.state.board}
         />
@@ -185,6 +182,7 @@ export default class TicTacToe extends Component {
           currentPlayer={this.state.currentPlayer}
           playerOne={this.state.playerOne.score}
           playerTwo={this.state.playerTwo.score}
+          round={this.state.round}
         />
       </div>
     );

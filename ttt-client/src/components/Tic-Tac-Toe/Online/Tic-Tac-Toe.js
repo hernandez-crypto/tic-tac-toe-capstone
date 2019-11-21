@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Board from './Gameboard/Board/Board';
 import Legend from './Gameboard/Legend/Legend';
+import { Button, Input } from '../../Utils/Utils';
 import './Tic-Tac-Toe.css';
+import BoardApiService from '../../../services/online-board-api-service';
 
 export default class TicTacToe extends Component {
   state = {
@@ -20,78 +22,78 @@ export default class TicTacToe extends Component {
     count: 0,
   };
 
-  restartGame = winner => {
-    if (!winner) {
-      this.setState({
-        playerOne: {
-          ...this.state.playerOne,
-          moves: [],
-        },
-        playerTwo: {
-          ...this.state.playerTwo,
-          moves: [],
-        },
-        board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-        count: 0,
-      });
-    }
-    if (winner === 1) {
-      this.setState({
-        playerOne: {
-          ...this.state.playerOne,
-          score: this.state.playerOne.score + 1,
-          moves: [],
-          count: 0,
-        },
-        board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-        count: 0,
-      });
-    }
-    if (winner === 2) {
-      this.setState({
-        playerTwo: {
-          ...this.state.playerTwo,
-          score: this.state.playerTwo.score + 1,
-          moves: [],
-          count: 0,
-        },
-        board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-        count: 0,
-      });
-    }
-  };
+  // restartGame = winner => {
+  //   if (!winner) {
+  //     this.setState({
+  //       playerOne: {
+  //         ...this.state.playerOne,
+  //         moves: [],
+  //       },
+  //       playerTwo: {
+  //         ...this.state.playerTwo,
+  //         moves: [],
+  //       },
+  //       board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  //       count: 0,
+  //     });
+  //   }
+  //   if (winner === 1) {
+  //     this.setState({
+  //       playerOne: {
+  //         ...this.state.playerOne,
+  //         score: this.state.playerOne.score + 1,
+  //         moves: [],
+  //         count: 0,
+  //       },
+  //       board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  //       count: 0,
+  //     });
+  //   }
+  //   if (winner === 2) {
+  //     this.setState({
+  //       playerTwo: {
+  //         ...this.state.playerTwo,
+  //         score: this.state.playerTwo.score + 1,
+  //         moves: [],
+  //         count: 0,
+  //       },
+  //       board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  //       count: 0,
+  //     });
+  //   }
+  // };
 
-  determineWinner = (currentPlayer, squareNumber) => {
-    const winCombos = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    winCombos.forEach(item => {
-      let [a, b, c] = item;
-      let { playerOne, playerTwo } = this.state;
-      let one = [...playerOne.moves, parseInt(squareNumber)];
-      let two = [...playerTwo.moves, parseInt(squareNumber)];
-      if (currentPlayer === 1) {
-        if (one.includes(a) && one.includes(b) && one.includes(c)) {
-          return this.restartGame(currentPlayer);
-        }
-      } else if (currentPlayer === 2) {
-        if (two.includes(a) && two.includes(b) && two.includes(c)) {
-          return this.restartGame(currentPlayer);
-        }
-      }
-      if (this.state.count === 10) {
-        this.restartGame();
-        //announce that there was a tie
-      }
-    });
-  };
+  // determineWinner = (currentPlayer, squareNumber) => {
+  //   const winCombos = [
+  //     [0, 1, 2],
+  //     [3, 4, 5],
+  //     [6, 7, 8],
+  //     [0, 3, 6],
+  //     [1, 4, 7],
+  //     [2, 5, 8],
+  //     [0, 4, 8],
+  //     [2, 4, 6],
+  //   ];
+  //   winCombos.forEach(item => {
+  //     let [a, b, c] = item;
+  //     let { playerOne, playerTwo } = this.state;
+  //     let one = [...playerOne.moves, parseInt(squareNumber)];
+  //     let two = [...playerTwo.moves, parseInt(squareNumber)];
+  //     if (currentPlayer === 1) {
+  //       if (one.includes(a) && one.includes(b) && one.includes(c)) {
+  //         return this.restartGame(currentPlayer);
+  //       }
+  //     } else if (currentPlayer === 2) {
+  //       if (two.includes(a) && two.includes(b) && two.includes(c)) {
+  //         return this.restartGame(currentPlayer);
+  //       }
+  //     }
+  //     if (this.state.count === 10) {
+  //       this.restartGame();
+  //       //announce that there was a tie
+  //     }
+  //   });
+  // };
 
   setChoice = squareNumber => {
     let { playerOne, playerTwo, currentPlayer } = this.state;
@@ -125,7 +127,12 @@ export default class TicTacToe extends Component {
         count: this.state.count + 1,
       });
     }
-    this.determineWinner(currentPlayer, squareNumber);
+    // this.determineWinner(currentPlayer, squareNumber);
+  };
+
+  createNewGame = () => {
+    BoardApiService.createNewBoard();
+    console.log(BoardApiService.createNewBoard);
   };
 
   render() {
@@ -145,6 +152,8 @@ export default class TicTacToe extends Component {
           playerOne={this.state.playerOne.score}
           playerTwo={this.state.playerTwo.score}
         />
+        <Button onClick={() => this.createNewGame()}>Create</Button>
+        <Button>Join</Button>
       </div>
     );
   }
