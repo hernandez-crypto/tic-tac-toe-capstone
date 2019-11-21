@@ -11,6 +11,10 @@
   align-items: center;
   cursor: pointer;
 }
-.threeRow {
-  color: red;
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
 }

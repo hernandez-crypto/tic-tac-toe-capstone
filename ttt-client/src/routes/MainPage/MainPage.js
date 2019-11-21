@@ -3,6 +3,7 @@ import { Section } from '../../components/Utils/Utils';
 import { Link } from 'react-router-dom';
 
 export default class MainPage extends Component {
+  // If I ever make more games this is the place where they would be listed
   render() {
     return (
       <Section className="MainPage">
