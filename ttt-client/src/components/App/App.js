@@ -6,7 +6,8 @@ import PublicOnlyRoute from '../Utils/PublicOnlyRoute';
 import LoginPage from '../../routes/LoginPage/LoginPage';
 import RegistrationPage from '../../routes/RegistrationPage/RegistrationPage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
-import TTTMainPage from '../../routes/TTTMainPage/TTTMainPage';
+import MainPage from '../../routes/MainPage/MainPage';
+import TTTPage from '../../routes/TTTPage/TTTPage';
 import './App.css';
 
 class App extends Component {
@@ -28,10 +29,10 @@ class App extends Component {
             <p className="red">There was an error! Oh no!</p>
           )}
           <Switch>
-            {/* <Route exact path={'/'} component={ThingListPage} /> */}
+            <Route exact path={'/'} component={MainPage} />
             <PublicOnlyRoute path={'/login'} component={LoginPage} />
             <PublicOnlyRoute path={'/register'} component={RegistrationPage} />
-            <PrivateRoute path={'/'} component={TTTMainPage} />
+            <PrivateRoute path={'/tic-tac-toe'} component={TTTPage} />
             <Route component={NotFoundPage} />
           </Switch>
         </main>

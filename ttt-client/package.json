@@ -1,7 +1,7 @@
 {
-  "name": "thingful-client",
+  "name": "game-client",
   "version": "0.0.1",
-  "description": "Starter code for learning about authentication.",
+  "description": "",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -34,6 +34,5 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-to-json": "^3.3.5"
-  },
-  "license": "MIT"
+  }
 }
