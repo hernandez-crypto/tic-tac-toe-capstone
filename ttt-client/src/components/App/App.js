@@ -6,9 +6,9 @@ import PublicOnlyRoute from '../Utils/PublicOnlyRoute';
 import LoginPage from '../../routes/LoginPage/LoginPage';
 import RegistrationPage from '../../routes/RegistrationPage/RegistrationPage';
 import NotFoundPage from '../../routes/NotFoundPage/NotFoundPage';
-//import MainPage from '../../routes/MainPage/MainPage';
 import TTTOffline from '../../routes/TTTOffline/TTTOffline';
-import TTTOnline from '../../routes/TTTOnline/TTTOnline';
+import TTTOnlineForm from '../../routes/TTTOnline/TTTOnlineForm';
+import TTTOnlineGame from '../../routes/TTTOnline/TTTOnlineGame';
 import './App.css';
 
 class App extends Component {
@@ -30,11 +30,18 @@ class App extends Component {
             <p className="red">There was an error! Oh no!</p>
           )}
           <Switch>
-            {/* <Route exact path={'/'} component={MainPage} /> */}
             <PublicOnlyRoute path={'/login'} component={LoginPage} />
             <PublicOnlyRoute path={'/register'} component={RegistrationPage} />
             <Route exact path={'/tic-tac-toe'} component={TTTOffline} />
-            <PrivateRoute path={'/tic-tac-toe/online'} component={TTTOnline} />
+            <PrivateRoute
+              exact
+              path={'/tic-tac-toe/online'}
+              component={TTTOnlineForm}
+            />
+            <PrivateRoute
+              path={'/tic-tac-toe/online/:room_name'}
+              component={TTTOnlineGame}
+            />
             <Route component={NotFoundPage} />
           </Switch>
         </main>

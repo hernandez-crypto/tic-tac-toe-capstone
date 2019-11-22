@@ -9,7 +9,6 @@ gamesRouter
   .all(requireAuth)
   .post(jsonBodyParser, (req, res, next) => {
     const { game_room } = req.body;
-    console.log(req);
     GamesService.CreateNewGame(req.app.get('db'), req.user.id, game_room)
       .then(board => {
         res
