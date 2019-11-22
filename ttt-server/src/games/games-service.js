@@ -1,15 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable quotes */
 const GamesService = {
-  getUserWithUserName(db, user_name) {
-    return db('users')
-      .where({ user_name })
-      .first();
-  },
-  CreateNewGame(knex, playerId) {
+  CreateNewGame(knex, player_started_id, game_room) {
+    console.log(game_room);
     return knex //makes a new instance on the db that allows the sender to create an entry
-      .insert({ player_started_id: playerId })
-      .into('board');
+      .insert({ player_started_id }) //gameId is going to be inserted into here now, work on implementing that
+      .insert({ game_room })
+      .into('board'); //should basically have all of these functions hooked up and the 1v1 Online mode should be enabled
   },
   UpdateCurrentGame(knex, game_id, index, playerId) {
     return knex('board') //update the game that the player is currently in

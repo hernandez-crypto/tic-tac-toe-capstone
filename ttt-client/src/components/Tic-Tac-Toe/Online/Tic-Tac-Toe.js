@@ -3,7 +3,7 @@ import Board from './Gameboard/Board/Board';
 import Legend from './Gameboard/Legend/Legend';
 import { Button, Input } from '../../Utils/Utils';
 import './Tic-Tac-Toe.css';
-import BoardApiService from '../../../services/online-board-api-service';
+import BoardApiService from '../../../services/board-api-service';
 
 export default class TicTacToe extends Component {
   state = {
@@ -131,8 +131,11 @@ export default class TicTacToe extends Component {
   };
 
   createNewGame = () => {
-    BoardApiService.createNewBoard();
-    console.log(BoardApiService.createNewBoard);
+    let roomName = Math.random()
+      .toString(36)
+      .substring(2, 15);
+    console.log(roomName);
+    BoardApiService.createNewBoard(roomName);
   };
 
   render() {

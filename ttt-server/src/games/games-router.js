@@ -2,16 +2,19 @@ const express = require('express');
 const GamesService = require('./games-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 const gamesRouter = express.Router();
+const jsonBodyParser = express.json();
 
 gamesRouter
   .route('/')
   .all(requireAuth)
-  .post((req, res, next) => {
-    GamesService.CreateNewGame(req.app.get('db'), req.user.id)
+  .post(jsonBodyParser, (req, res, next) => {
+    const { game_room } = req.body;
+    console.log(req);
+    GamesService.CreateNewGame(req.app.get('db'), req.user.id, game_room)
       .then(board => {
         res
           .status(200)
-          .json({})
+          .json({ board })
           .end();
       })
       .catch(next);
@@ -24,7 +27,28 @@ gamesRouter
   .get((req, res, next) => {
     GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
       .then(board => {
-        res.json(board);
+        let {
+          square_one,
+          square_two,
+          square_three,
+          square_four,
+          square_five,
+          square_six,
+          square_seven,
+          square_eight,
+          square_nine,
+        } = board;
+        res.json({
+          square_one,
+          square_two,
+          square_three,
+          square_four,
+          square_five,
+          square_six,
+          square_seven,
+          square_eight,
+          square_nine,
+        });
       })
       .catch(next);
   });
