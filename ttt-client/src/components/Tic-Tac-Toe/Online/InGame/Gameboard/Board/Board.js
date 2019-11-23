@@ -5,12 +5,12 @@ import './Board.css';
 export default class Board extends Component {
   render() {
     console.log(Object.entries(this.props.board));
-    let boxes = Object.entries(this.props.board).map((square, i) => (
+    let boxes = this.props.board.map((square, i) => (
       <Square
         setChoice={this.props.setChoice}
         id={`${i}`}
-        key={`${square}`}
-        currentValue={i}
+        key={`${i}`}
+        currentValue={square}
       />
     ));
 

@@ -25,7 +25,6 @@ const BoardApiService = {
     );
   },
   patchNewMove(game_room, updatedBoard) {
-    console.log(updatedBoard);
     return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
       method: 'PATCH',
       headers: {
@@ -33,12 +32,29 @@ const BoardApiService = {
         authorization: `bearer ${TokenService.getAuthToken()}`,
       },
       body: JSON.stringify({
-        board: updatedBoard,
+        board: this.boardArrayToString(updatedBoard),
         game_room,
       }),
-    }).then(res =>
-      !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-    );
+    })
+      .then(res =>
+        !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+      )
+      .then(res => {
+        if (typeof res.board === 'string') {
+          res.board = this.boardStringToArray(res.board);
+        }
+        return res;
+      });
+  },
+  boardStringToArray(board) {
+    let newArr = [];
+    for (let i = 0; i < 9; i++) {
+      newArr.push(parseInt(board.charAt(i)) || 0);
+    }
+    return newArr;
+  },
+  boardArrayToString(board) {
+    return board.join('');
   },
 };
 

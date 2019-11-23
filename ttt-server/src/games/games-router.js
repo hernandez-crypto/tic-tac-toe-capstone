@@ -27,28 +27,7 @@ gamesRouter
   .get((req, res, next) => {
     GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
       .then(board => {
-        let {
-          square_one,
-          square_two,
-          square_three,
-          square_four,
-          square_five,
-          square_six,
-          square_seven,
-          square_eight,
-          square_nine,
-        } = board;
-        res.json({
-          square_one,
-          square_two,
-          square_three,
-          square_four,
-          square_five,
-          square_six,
-          square_seven,
-          square_eight,
-          square_nine,
-        });
+        res.json(board);
       })
       .catch(next);
   });

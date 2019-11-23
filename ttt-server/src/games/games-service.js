@@ -11,7 +11,7 @@ const GamesService = {
   },
   UpdateCurrentGame(knex, game_room, board) {
     return knex('board')
-      .update(board)
+      .update({ board })
       .where({ game_room })
       .returning('*')
       .then(([game]) => game)

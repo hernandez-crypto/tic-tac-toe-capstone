@@ -19,17 +19,7 @@ export default class TicTacToe extends Component {
       score: 0,
       name: '',
     },
-    board: {
-      square_one: 0,
-      square_two: 0,
-      square_three: 0,
-      square_four: 0,
-      square_five: 0,
-      square_six: 0,
-      square_seven: 0,
-      square_eight: 0,
-      square_nine: 0,
-    },
+    board: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     currentPlayer: 1,
     count: 0,
   };
@@ -38,45 +28,15 @@ export default class TicTacToe extends Component {
     this.setState({ board });
   };
 
-  setChoice = squareNumber => {
+  setChoice = (squareNumber, playerNumber = 1) => {
     const gameRoom = this.props.roomName;
-    let updatedBoard = { ...this.state.board };
-    switch (parseInt(squareNumber)) {
-      case 0:
-        updatedBoard = { ...updatedBoard, square_one: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard).then(
-          board => {
-            // this.setState({ board });
-            console.log(board, 'board updated');
-          }
-        );
-      case 1:
-        updatedBoard = { ...updatedBoard, square_two: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 2:
-        updatedBoard = { ...updatedBoard, square_three: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 3:
-        updatedBoard = { ...updatedBoard, square_four: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 4:
-        updatedBoard = { ...updatedBoard, square_five: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 5:
-        updatedBoard = { ...updatedBoard, square_six: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 6:
-        updatedBoard = { ...updatedBoard, square_seven: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 7:
-        updatedBoard = { ...updatedBoard, square_eight: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      case 8:
-        updatedBoard = { ...updatedBoard, square_nine: 1 };
-        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
-      default:
-        return console.log('Hello World');
-    }
+    let updatedBoard = [...this.state.board];
+    updatedBoard[squareNumber] = playerNumber;
+    BoardApiService.patchNewMove(gameRoom, updatedBoard).then(res => {
+      this.setState({
+        board: res.board,
+      });
+    });
   };
 
   render() {
