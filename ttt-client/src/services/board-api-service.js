@@ -15,7 +15,6 @@ const BoardApiService = {
     );
   },
   getCurrentBoard(game_room) {
-    console.log(game_room);
     return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
       method: 'GET',
       headers: {
@@ -25,15 +24,17 @@ const BoardApiService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
-  postNewMove(game_room, updatedBoard) {
+  patchNewMove(game_room, updatedBoard) {
+    console.log(updatedBoard);
     return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'content-type': 'application/json',
         authorization: `bearer ${TokenService.getAuthToken()}`,
       },
       body: JSON.stringify({
         board: updatedBoard,
+        game_room,
       }),
     }).then(res =>
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()

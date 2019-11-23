@@ -9,10 +9,10 @@ const GamesService = {
       .then(([game]) => game)
       .then(game => this.RespondWithCurrentGame(knex, game.game_room));
   },
-  UpdateCurrentGame(knex, game_id, index, playerId) {
+  UpdateCurrentGame(knex, game_room, board) {
     return knex('board')
-      .where({ game_id })
-      .update({ [index]: playerId })
+      .update(board)
+      .where({ game_room })
       .returning('*')
       .then(([game]) => game)
       .then(game => this.RespondWithCurrentGame(knex, game.game_room));

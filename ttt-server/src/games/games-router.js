@@ -2,6 +2,7 @@ const express = require('express');
 const GamesService = require('./games-service');
 const { requireAuth } = require('../middleware/jwt-auth');
 const gamesRouter = express.Router();
+const path = require('path');
 const jsonBodyParser = express.json();
 
 gamesRouter
@@ -56,19 +57,14 @@ gamesRouter
   .route('/:game_id')
   .all(requireAuth)
   .all(checkGameExists)
-  .patch((req, res, next) => {
-    for (const [key, value] of Object.entries(req.body.updatedBoard))
-      if (value == null)
-        return res.status(400).json({
-          error: `Missing '${key}' in request body`,
-        });
-    board.lastPlayerMove = req.user.id;
+  .patch(jsonBodyParser, (req, res, next) => {
     GamesService.UpdateCurrentGame(
       req.app.get('db'),
-      req.params.game_id,
-      req.body.updatedBoard
+      req.body.game_room,
+      req.body.board
     )
       .then(game => {
+        console.log(game, 'filtered');
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${game.id}`))

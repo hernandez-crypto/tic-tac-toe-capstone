@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BoardApiService from '../../../../services/board-api-service';
 import { Button, Input, Required } from '../../../Utils/Utils';
+import './JoinGameForm.css';
 
 export default class JoinGameForm extends Component {
   static defaultProps = {
@@ -15,7 +16,6 @@ export default class JoinGameForm extends Component {
   handleJoinSubmit = ev => {
     ev.preventDefault();
     const { game_room } = ev.target;
-    console.log(game_room.value);
     this.setState({ error: null });
     BoardApiService.getCurrentBoard(game_room.value)
       .then(game => {
@@ -41,7 +41,7 @@ export default class JoinGameForm extends Component {
         <Button onClick={() => this.createNewGame()}>Create</Button>
         <form className="JoinGameForm" onSubmit={this.handleJoinSubmit}>
           <div role="alert">{error && <p className="red">{error}</p>}</div>
-          <div className="game_room">
+          <div className="JoinGameFormInputs">
             <label htmlFor="JoinGameForm__game_room">
               Insert Game Room <Required />
             </label>

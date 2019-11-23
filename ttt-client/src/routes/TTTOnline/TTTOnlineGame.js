@@ -5,10 +5,11 @@ import { Section } from '../../components/Utils/Utils';
 
 export default class TTTOnlineGame extends Component {
   render() {
+    console.log(this.props.match.params.room_name);
     return (
       <div>
         <Section className="gameRoom">
-          <TicTacToeGame />
+          <TicTacToeGame roomName={this.props.match.params.room_name} />
         </Section>
       </div>
     );

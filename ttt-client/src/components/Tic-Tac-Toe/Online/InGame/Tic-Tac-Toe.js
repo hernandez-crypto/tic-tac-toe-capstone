@@ -19,49 +19,64 @@ export default class TicTacToe extends Component {
       score: 0,
       name: '',
     },
-    board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    board: {
+      square_one: 0,
+      square_two: 0,
+      square_three: 0,
+      square_four: 0,
+      square_five: 0,
+      square_six: 0,
+      square_seven: 0,
+      square_eight: 0,
+      square_nine: 0,
+    },
     currentPlayer: 1,
     count: 0,
-    gameRoom: '',
   };
 
-  componentDidMount() {
-    this.setState({
-      gameRoom: 
-    })
-  }
-
-  loadSquares = () => {
-    //load up the squares in state
+  loadSquares = board => {
+    this.setState({ board });
   };
 
   setChoice = squareNumber => {
-    console.log(squareNumber);
-    switch (squareNumber) {
+    const gameRoom = this.props.roomName;
+    let updatedBoard = { ...this.state.board };
+    switch (parseInt(squareNumber)) {
       case 0:
-        console.log('square_one posted');
-        return BoardApiService.postNewMove('square_one');
+        updatedBoard = { ...updatedBoard, square_one: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard).then(
+          board => {
+            // this.setState({ board });
+            console.log(board, 'board updated');
+          }
+        );
       case 1:
-        return BoardApiService.postNewMove('square_two');
+        updatedBoard = { ...updatedBoard, square_two: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 2:
-        return BoardApiService.postNewMove('square_three');
+        updatedBoard = { ...updatedBoard, square_three: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 3:
-        return BoardApiService.postNewMove('square_four');
+        updatedBoard = { ...updatedBoard, square_four: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 4:
-        return BoardApiService.postNewMove('square_five');
+        updatedBoard = { ...updatedBoard, square_five: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 5:
-        return BoardApiService.postNewMove('square_six');
+        updatedBoard = { ...updatedBoard, square_six: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 6:
-        return BoardApiService.postNewMove('square_seven');
+        updatedBoard = { ...updatedBoard, square_seven: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 7:
-        return BoardApiService.postNewMove('square_eight');
+        updatedBoard = { ...updatedBoard, square_eight: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
       case 8:
-        return BoardApiService.postNewMove('square_nine');
-      // default:
-      //   return console.log('Hello World');
+        updatedBoard = { ...updatedBoard, square_nine: 1 };
+        return BoardApiService.patchNewMove(gameRoom, updatedBoard);
+      default:
+        return console.log('Hello World');
     }
-
-    // this.determineWinner(currentPlayer, squareNumber);   <--- handle the structure of the response. make a function for it ?
   };
 
   render() {
