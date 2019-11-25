@@ -51,6 +51,7 @@ export default class TicTacToe extends Component {
           currentPlayer={this.state.currentPlayer}
           playerOne={this.state.playerOne.score}
           playerTwo={this.state.playerTwo.score}
+          roomName={this.props.roomName}
         />
       </div>
     );

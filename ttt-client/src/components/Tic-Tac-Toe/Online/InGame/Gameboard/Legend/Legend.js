@@ -9,6 +9,8 @@ export default function Legend(props) {
         <h2 className="legend Two">P1 : {props.playerOne}</h2>
         <h2 className="legend Three">P2 : {props.playerTwo}</h2>
       </div>
+      <h4 classname="legend Four">Room : </h4>
+      {props.roomName}
     </>
   );
 }

@@ -25,7 +25,25 @@ gamesRouter
   .all(requireAuth)
   .all(checkGameExists)
   .get((req, res, next) => {
+    //route used when game initially created and when posting new moves
     GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
+      .then(board => {
+        res.json(board);
+      })
+      .catch(next);
+  });
+
+gamesRouter
+  .route('/:game_id/:second_player_id')
+  .all(requireAuth)
+  .all(checkGameExists) // second player route
+  .get((req, res, next) => {
+    console.log('second player route used', req.params.second_player_id);
+    GamesService.RespondWithCurrentGame(
+      req.app.get('db'),
+      req.params.game_id,
+      req.params.second_player_id
+    )
       .then(board => {
         res.json(board);
       })
@@ -43,7 +61,6 @@ gamesRouter
       req.body.board
     )
       .then(game => {
-        console.log(game, 'filtered');
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${game.id}`))

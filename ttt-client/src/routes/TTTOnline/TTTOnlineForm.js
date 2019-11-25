@@ -10,6 +10,7 @@ export default class TTTOnlineForm extends Component {
     },
   };
   onJoinSuccess = gameRoom => {
+    console.log(this.props);
     const { history } = this.props;
     history.push(`/tic-tac-toe/online/${gameRoom}`);
   };

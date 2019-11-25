@@ -10,15 +10,14 @@ export default class JoinGameForm extends Component {
 
   state = {
     error: null,
-    gameRoom: '',
   };
 
   handleJoinSubmit = ev => {
     ev.preventDefault();
     const { game_room } = ev.target;
     this.setState({ error: null });
-    BoardApiService.getCurrentBoard(game_room.value)
-      .then(game => {
+    BoardApiService.getCurrentBoard(game_room.value, 3) // <--- needs to send the user.id through. temporary
+      .then(() => {
         this.props.onJoinSuccess(game_room.value);
       })
       .catch(res => {
@@ -30,7 +29,14 @@ export default class JoinGameForm extends Component {
       .toString(36)
       .substring(2, 15);
     BoardApiService.createNewBoard(roomName).then(res => {
-      this.setState({ gameRoom: res.board.game_room });
+      console.log(res);
+      BoardApiService.getCurrentBoard(res.board.game_room)
+        .then(() => {
+          this.props.onJoinSuccess(res.board.game_room);
+        })
+        .catch(res => {
+          this.setState({ error: res.error });
+        });
     });
   };
 
@@ -54,10 +60,10 @@ export default class JoinGameForm extends Component {
           </div>
           <Button type="submit">Join</Button>
         </form>
-        <p>
+        {/* <p>
           Game Room:{' '}
           {this.state.gameRoom === '' ? 'Press Create!' : this.state.gameRoom}
-        </p>
+        </p> */}
       </>
     );
   }

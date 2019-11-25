@@ -17,12 +17,21 @@ const GamesService = {
       .then(([game]) => game)
       .then(game => this.RespondWithCurrentGame(knex, game.game_room));
   },
-  RespondWithCurrentGame(knex, game_room) {
-    return knex
-      .select('*')
-      .from('board')
-      .where({ game_room })
-      .first();
+  RespondWithCurrentGame(knex, game_room, player_joined_id) {
+    if (player_joined_id) {
+      console.log('second player inserted into database');
+      return knex('board')
+        .update({ player_joined_id })
+        .where({ game_room })
+        .returning('*')
+        .then(([game]) => game)
+        .then(game => this.RespondWithCurrentGame(knex, game.game_room));
+    } else
+      return knex
+        .select('*')
+        .from('board')
+        .where({ game_room })
+        .first();
   },
 };
 
