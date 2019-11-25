@@ -29,7 +29,6 @@ export default class JoinGameForm extends Component {
       .toString(36)
       .substring(2, 15);
     BoardApiService.createNewBoard(roomName).then(res => {
-      console.log(res);
       BoardApiService.getCurrentBoard(res.board.game_room)
         .then(() => {
           this.props.onJoinSuccess(res.board.game_room);

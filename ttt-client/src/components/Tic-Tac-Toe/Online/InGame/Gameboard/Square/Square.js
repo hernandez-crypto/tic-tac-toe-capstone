@@ -4,7 +4,6 @@ import './Square.css';
 export default class Square extends Component {
   handleClick = () => {
     let { id, setChoice } = this.props;
-    console.log(id);
     setChoice(id);
   };
 

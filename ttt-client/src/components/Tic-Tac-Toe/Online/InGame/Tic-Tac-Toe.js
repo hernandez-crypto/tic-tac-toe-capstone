@@ -24,9 +24,15 @@ export default class TicTacToe extends Component {
     count: 0,
   };
 
-  loadSquares = board => {
-    this.setState({ board });
-  };
+  componentDidMount() {
+    BoardApiService.getCurrentBoard(this.props.roomName).then(res => {
+      this.setState({
+        board: res.board.split('').map(item => {
+          return parseInt(item);
+        }),
+      });
+    });
+  }
 
   setChoice = (squareNumber, playerNumber = 1) => {
     const gameRoom = this.props.roomName;
@@ -40,6 +46,7 @@ export default class TicTacToe extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div className="tic-tac-toe-board">
         <Board

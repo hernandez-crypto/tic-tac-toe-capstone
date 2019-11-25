@@ -12,10 +12,7 @@ gamesRouter
     const { game_room } = req.body;
     GamesService.CreateNewGame(req.app.get('db'), req.user.id, game_room)
       .then(board => {
-        res
-          .status(200)
-          .json({ board })
-          .end();
+        res.json({ board, pOneId: 1 }, 200).end();
       })
       .catch(next);
   });
@@ -55,6 +52,8 @@ gamesRouter
   .all(requireAuth)
   .all(checkGameExists)
   .patch(jsonBodyParser, (req, res, next) => {
+    console.log(req.user); //first or second person ?
+    //
     GamesService.UpdateCurrentGame(
       req.app.get('db'),
       req.body.game_room,
