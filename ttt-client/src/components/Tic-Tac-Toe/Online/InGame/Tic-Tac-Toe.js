@@ -26,11 +26,13 @@ export default class TicTacToe extends Component {
 
   componentDidMount() {
     BoardApiService.getCurrentBoard(this.props.roomName).then(res => {
-      this.setState({
-        board: res.board.split('').map(item => {
-          return parseInt(item);
-        }),
-      });
+      res.board !== null
+        ? this.setState({
+            board: res.board.split('').map(item => {
+              return parseInt(item);
+            }),
+          })
+        : console.log('Hello World');
     });
   }
 

@@ -16,7 +16,7 @@ export default class JoinGameForm extends Component {
     ev.preventDefault();
     const { game_room } = ev.target;
     this.setState({ error: null });
-    BoardApiService.getCurrentBoard(game_room.value, 3) // <--- needs to send the user.id through. temporary
+    BoardApiService.postSecondPlayer(game_room.value) // <--- needs to send the user.id through. temporary
       .then(() => {
         this.props.onJoinSuccess(game_room.value);
       })

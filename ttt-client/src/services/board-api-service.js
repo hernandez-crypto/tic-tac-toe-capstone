@@ -14,28 +14,25 @@ const BoardApiService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
-  getCurrentBoard(game_room, second_player_id) {
-    if (second_player_id) {
-      return fetch(
-        `${config.API_ENDPOINT}/games/${game_room}/${second_player_id}`,
-        {
-          method: 'GET',
-          headers: {
-            authorization: `bearer ${TokenService.getAuthToken()}`,
-          },
-        }
-      ).then(res =>
-        !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-      );
-    } else
-      return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
-        method: 'GET',
-        headers: {
-          authorization: `bearer ${TokenService.getAuthToken()}`,
-        },
-      }).then(res =>
-        !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
-      );
+  postSecondPlayer(game_room) {
+    return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
+      method: 'POST',
+      headers: {
+        authorization: `bearer ${TokenService.getAuthToken()}`,
+      },
+    }).then(res =>
+      !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+    );
+  },
+  getCurrentBoard(game_room) {
+    return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
+      method: 'GET',
+      headers: {
+        authorization: `bearer ${TokenService.getAuthToken()}`,
+      },
+    }).then(res =>
+      !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
+    );
   },
   patchNewMove(game_room, updatedBoard) {
     return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {

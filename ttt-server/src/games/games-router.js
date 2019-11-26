@@ -12,7 +12,7 @@ gamesRouter
     const { game_room } = req.body;
     GamesService.CreateNewGame(req.app.get('db'), req.user.id, game_room)
       .then(board => {
-        res.json({ board, pOneId: 1 }, 200).end();
+        res.json({ board }, 200).end();
       })
       .catch(next);
   });
@@ -22,38 +22,25 @@ gamesRouter
   .all(requireAuth)
   .all(checkGameExists)
   .get((req, res, next) => {
-    //route used when game initially created and when posting new moves
     GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
       .then(board => {
         res.json(board);
       })
       .catch(next);
-  });
-
-gamesRouter
-  .route('/:game_id/:second_player_id')
-  .all(requireAuth)
-  .all(checkGameExists) // second player route
-  .get((req, res, next) => {
-    console.log('second player route used', req.params.second_player_id);
-    GamesService.RespondWithCurrentGame(
+  })
+  .post((req, res, next) => {
+    GamesService.inserSecondPlayerIntoGame(
       req.app.get('db'),
       req.params.game_id,
-      req.params.second_player_id
+      req.user.id
     )
       .then(board => {
         res.json(board);
       })
       .catch(next);
-  });
-
-gamesRouter
-  .route('/:game_id')
-  .all(requireAuth)
-  .all(checkGameExists)
+  })
   .patch(jsonBodyParser, (req, res, next) => {
-    console.log(req.user); //first or second person ?
-    //
+    //this is where the app should check if the user.id is either the second player or first player in the knex game_room instance
     GamesService.UpdateCurrentGame(
       req.app.get('db'),
       req.body.game_room,
