@@ -6,6 +6,7 @@ const GamesService = {
       .insert({
         player_started_id: player_one.id,
         player_started_usrname: player_one.user_name,
+        current_player: player_one.id,
         game_room,
       })
       .into('board')
@@ -13,9 +14,9 @@ const GamesService = {
       .then(([game]) => game)
       .then(game => this.RespondWithCurrentGame(knex, game.game_room));
   },
-  UpdateCurrentGame(knex, game_room, board) {
+  UpdateCurrentGame(knex, game_room, board, other_player_id) {
     return knex('board')
-      .update({ board })
+      .update({ board, current_player: other_player_id })
       .where({ game_room })
       .returning('*')
       .then(([game]) => game)

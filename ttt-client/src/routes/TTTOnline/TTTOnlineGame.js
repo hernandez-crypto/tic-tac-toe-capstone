@@ -5,7 +5,6 @@ import { Section } from '../../components/Utils/Utils';
 
 export default class TTTOnlineGame extends Component {
   render() {
-    console.log(this.props);
     return (
       <div>
         <Section className="gameRoom">

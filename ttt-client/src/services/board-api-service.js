@@ -34,14 +34,17 @@ const BoardApiService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
-  patchNewMove(game_room, updatedBoard) {
+  patchNewMove(game_room, updatedBoard, next_player_id) {
     return fetch(`${config.API_ENDPOINT}/games/${game_room}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json',
         authorization: `bearer ${TokenService.getAuthToken()}`,
       },
-      body: JSON.stringify({ board: this.boardArrayToString(updatedBoard) }),
+      body: JSON.stringify({
+        board: this.boardArrayToString(updatedBoard),
+        next_player: next_player_id,
+      }),
     })
       .then(res =>
         !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()

@@ -29,7 +29,7 @@ gamesRouter
       .catch(next);
   })
   .post((req, res, next) => {
-    GamesService.inserSecondPlayerIntoGame(
+    GamesService.insertSecondPlayerIntoGame(
       req.app.get('db'),
       req.params.game_room,
       req.user
@@ -40,19 +40,63 @@ gamesRouter
       .catch(next);
   })
   .patch(jsonBodyParser, (req, res, next) => {
-    //this is where the app should check if the user.id is either the second player or first player in the knex game_room instance
     GamesService.RespondWithCurrentGame(
       req.app.get('db'),
       req.params.game_room
     ).then(data => {
-      console.log(data, 'data');
-      console.log(req.user.id, 'user_id');
+      if (data.player_joined_id == null) {
+        return res.status(400).json({
+          error: `Second player has not yet joined.`, // this entire function should just check if the second player has joined
+        }); //if they have then the patch request should be canceled, currently the front-end is handling this problem
+      }
     });
     GamesService.UpdateCurrentGame(
       req.app.get('db'),
       req.params.game_room,
-      req.body.board
+      req.body.board,
+      req.body.next_player
     )
+      .then(game => {
+        let boardCopy = [...game.board.split('')];
+        let playerOneMoves = [];
+        let playerTwoMoves = [];
+        boardCopy.forEach((square, index) => {
+          if (square === 'X') {
+            playerOneMoves = [...playerOneMoves, index];
+          }
+          if (square === 'O') {
+            playerTwoMoves = [...playerTwoMoves, index];
+          }
+        });
+        const winCombos = [
+          [0, 1, 2],
+          [3, 4, 5],
+          [6, 7, 8],
+          [0, 3, 6],
+          [1, 4, 7],
+          [2, 5, 8],
+          [0, 4, 8],
+          [2, 4, 6],
+        ];
+        winCombos.forEach(item => {
+          let [a, b, c] = item;
+          if (
+            playerOneMoves.includes(a) &&
+            playerOneMoves.includes(b) &&
+            playerOneMoves.includes(c)
+          ) {
+            return console.log('Player One has Won');
+          }
+          if (
+            playerTwoMoves.includes(a) &&
+            playerTwoMoves.includes(b) &&
+            playerTwoMoves.includes(c)
+          ) {
+            return console.log('Player Two has Won');
+          }
+        });
+        return game;
+      })
       .then(game => {
         res
           .status(201)

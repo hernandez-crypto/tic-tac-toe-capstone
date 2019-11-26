@@ -6,7 +6,7 @@ export default function Legend(props) {
   return (
     <>
       <h2 className="legend One">
-        {currentPlayer === 1 ? playerOne.name : playerTwo.name}
+        {currentPlayer === 1 ? playerTwo.name : playerOne.name}
       </h2>
       <div className="stats">
         <h2 className="legend Two">

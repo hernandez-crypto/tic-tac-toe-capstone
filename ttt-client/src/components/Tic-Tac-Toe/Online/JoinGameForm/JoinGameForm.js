@@ -16,7 +16,7 @@ export default class JoinGameForm extends Component {
     ev.preventDefault();
     const { game_room } = ev.target;
     this.setState({ error: null });
-    BoardApiService.postSecondPlayer(game_room.value) // <--- needs to send the user.id through. temporary
+    BoardApiService.postSecondPlayer(game_room.value)
       .then(() => {
         this.props.onJoinSuccess(game_room.value);
       })
@@ -59,10 +59,6 @@ export default class JoinGameForm extends Component {
           </div>
           <Button type="submit">Join</Button>
         </form>
-        {/* <p>
-          Game Room:{' '}
-          {this.state.gameRoom === '' ? 'Press Create!' : this.state.gameRoom}
-        </p> */}
       </>
     );
   }

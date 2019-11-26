@@ -19,7 +19,6 @@ const TokenService = {
     return window.localStorage.getItem(config.USER_NAME);
   },
   getAuthId() {
-    console.log(window.localStorage.getItem(config.USER_ID));
     return window.localStorage.getItem(config.USER_ID);
   },
   getAuthToken() {
