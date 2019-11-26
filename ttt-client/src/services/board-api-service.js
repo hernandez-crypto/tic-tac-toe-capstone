@@ -41,17 +41,14 @@ const BoardApiService = {
         'content-type': 'application/json',
         authorization: `bearer ${TokenService.getAuthToken()}`,
       },
-      body: JSON.stringify({
-        board: this.boardArrayToString(updatedBoard),
-        game_room,
-      }),
+      body: JSON.stringify({ board: this.boardArrayToString(updatedBoard) }),
     })
       .then(res =>
         !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
       )
       .then(res => {
         if (typeof res.board === 'string') {
-          res.board = this.boardStringToArray(res.board);
+          res.board = res.board.split('');
         }
         return res;
       });

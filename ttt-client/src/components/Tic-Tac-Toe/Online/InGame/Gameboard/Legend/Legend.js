@@ -2,15 +2,22 @@ import React from 'react';
 import './Legend.css';
 
 export default function Legend(props) {
+  let { playerOne, playerTwo, currentPlayer, roomName } = props;
   return (
     <>
-      <h2 className="legend One">P{props.currentPlayer}</h2>
+      <h2 className="legend One">
+        {currentPlayer === 1 ? playerOne.name : playerTwo.name}
+      </h2>
       <div className="stats">
-        <h2 className="legend Two">P1 : {props.playerOne}</h2>
-        <h2 className="legend Three">P2 : {props.playerTwo}</h2>
+        <h2 className="legend Two">
+          {playerOne.name === '' ? 'P1' : playerOne.name} : {playerOne.score}
+        </h2>
+        <h2 className="legend Three">
+          {playerTwo.name === '' ? 'P2' : playerTwo.name} : {playerTwo.score}
+        </h2>
       </div>
-      <h4 classname="legend Four">Room : </h4>
-      {props.roomName}
+      <h4 className="legend Four">Room : </h4>
+      {roomName}
     </>
   );
 }

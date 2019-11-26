@@ -1,8 +1,26 @@
 import config from '../config';
 
 const TokenService = {
+  // saveLoginInfo(token, name, id) {
+  //   window.localStorage.setItem(config.TOKEN_KEY, token);
+  //   window.localStorage.setItem(config.USER_ID, id);
+  //   window.localStorage.setItem(config.USER_NAME, name);
+  // },
   saveAuthToken(token) {
     window.localStorage.setItem(config.TOKEN_KEY, token);
+  },
+  saveAuthId(id) {
+    window.localStorage.setItem(config.USER_ID, id);
+  },
+  saveAuthName(name) {
+    window.localStorage.setItem(config.USER_NAME, name);
+  },
+  getAuthName() {
+    return window.localStorage.getItem(config.USER_NAME);
+  },
+  getAuthId() {
+    console.log(window.localStorage.getItem(config.USER_ID));
+    return window.localStorage.getItem(config.USER_ID);
   },
   getAuthToken() {
     return window.localStorage.getItem(config.TOKEN_KEY);

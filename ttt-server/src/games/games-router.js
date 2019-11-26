@@ -10,7 +10,7 @@ gamesRouter
   .all(requireAuth)
   .post(jsonBodyParser, (req, res, next) => {
     const { game_room } = req.body;
-    GamesService.CreateNewGame(req.app.get('db'), req.user.id, game_room)
+    GamesService.CreateNewGame(req.app.get('db'), req.user, game_room)
       .then(board => {
         res.json({ board }, 200).end();
       })
@@ -18,11 +18,11 @@ gamesRouter
   });
 
 gamesRouter
-  .route('/:game_id')
+  .route('/:game_room')
   .all(requireAuth)
   .all(checkGameExists)
   .get((req, res, next) => {
-    GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_id)
+    GamesService.RespondWithCurrentGame(req.app.get('db'), req.params.game_room)
       .then(board => {
         res.json(board);
       })
@@ -31,8 +31,8 @@ gamesRouter
   .post((req, res, next) => {
     GamesService.inserSecondPlayerIntoGame(
       req.app.get('db'),
-      req.params.game_id,
-      req.user.id
+      req.params.game_room,
+      req.user
     )
       .then(board => {
         res.json(board);
@@ -41,9 +41,16 @@ gamesRouter
   })
   .patch(jsonBodyParser, (req, res, next) => {
     //this is where the app should check if the user.id is either the second player or first player in the knex game_room instance
+    GamesService.RespondWithCurrentGame(
+      req.app.get('db'),
+      req.params.game_room
+    ).then(data => {
+      console.log(data, 'data');
+      console.log(req.user.id, 'user_id');
+    });
     GamesService.UpdateCurrentGame(
       req.app.get('db'),
-      req.body.game_room,
+      req.params.game_room,
       req.body.board
     )
       .then(game => {
@@ -59,7 +66,7 @@ async function checkGameExists(req, res, next) {
   try {
     const game = await GamesService.RespondWithCurrentGame(
       req.app.get('db'),
-      req.params.game_id
+      req.params.game_room
     );
 
     if (!game)

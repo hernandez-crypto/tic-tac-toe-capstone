@@ -1,9 +1,13 @@
 /* eslint-disable no-console */
 /* eslint-disable quotes */
 const GamesService = {
-  CreateNewGame(knex, player_started_id, game_room) {
+  CreateNewGame(knex, player_one, game_room) {
     return knex
-      .insert({ player_started_id, game_room })
+      .insert({
+        player_started_id: player_one.id,
+        player_started_usrname: player_one.user_name,
+        game_room,
+      })
       .into('board')
       .returning('*')
       .then(([game]) => game)
@@ -24,9 +28,12 @@ const GamesService = {
       .where({ game_room })
       .first();
   },
-  inserSecondPlayerIntoGame(knex, game_room, player_joined_id) {
+  inserSecondPlayerIntoGame(knex, game_room, player_two) {
     return knex('board')
-      .update({ player_joined_id })
+      .update({
+        player_joined_id: player_two.id,
+        player_joined_usrname: player_two.user_name,
+      })
       .where({ game_room })
       .returning('*')
       .then(([game]) => game)
