@@ -29,7 +29,7 @@ const GamesService = {
       .where({ game_room })
       .first();
   },
-  inserSecondPlayerIntoGame(knex, game_room, player_two) {
+  insertSecondPlayerIntoGame(knex, game_room, player_two) {
     return knex('board')
       .update({
         player_joined_id: player_two.id,
