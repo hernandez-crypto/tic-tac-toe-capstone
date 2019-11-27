@@ -11,13 +11,13 @@ export default class TTTOnlineForm extends Component {
   };
   onJoinSuccess = gameRoom => {
     const { history } = this.props;
-    history.push(`/tic-tac-toe/online/${gameRoom}`);
+    history.push(`/online/${gameRoom}`);
   };
   render() {
     return (
       <div>
         <Section className="TTTPage">
-          <Link to="/tic-tac-toe">
+          <Link to="/">
             <h3>Play Offline</h3>
           </Link>
           <p>Play with a friend!</p>

@@ -32,14 +32,10 @@ class App extends Component {
           <Switch>
             <PublicOnlyRoute path={'/login'} component={LoginPage} />
             <PublicOnlyRoute path={'/register'} component={RegistrationPage} />
-            <Route exact path={'/tic-tac-toe'} component={TTTOffline} />
+            <Route exact path={'/'} component={TTTOffline} />
+            <PrivateRoute exact path={'/online'} component={TTTOnlineForm} />
             <PrivateRoute
-              exact
-              path={'/tic-tac-toe/online'}
-              component={TTTOnlineForm}
-            />
-            <PrivateRoute
-              path={'/tic-tac-toe/online/:room_name'}
+              path={'/online/:room_name'}
               component={TTTOnlineGame}
             />
             <Route component={NotFoundPage} />

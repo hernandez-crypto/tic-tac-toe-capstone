@@ -24,7 +24,8 @@ function getAvailableMoves(board) {
   });
   return moves;
 }
-function checkWin(board, player) {
+
+function checkWin(board, symbol) {
   const winCombos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -35,12 +36,14 @@ function checkWin(board, player) {
     [0, 4, 8],
     [6, 4, 2],
   ];
+  let winStats = { winner: '', combo: [] };
   winCombos.forEach(item => {
     let [a, b, c] = item;
-    if (board[a] === player && board[b] === player && board[c] === player) {
-      return { winner: player, combo: [a, b, c] };
+    if (board[a] === symbol && board[b] === symbol && board[c] === symbol) {
+      winStats = { winner: symbol, combo: [a, b, c] };
     }
   });
+  return winStats;
 }
 
 export default class ComputerPlayer {
@@ -81,14 +84,17 @@ export default class ComputerPlayer {
 
   hardMode = (board, maximizing, depth) => {
     if (depth === 0) this.nodes_map.clear();
-    if (checkWin(board) || depth === this.max_depth) {
-      if (checkWin(board).winner === 'X') {
+    let symbol = 'X';
+
+    if (checkWin(board, symbol).winner === symbol || depth === this.max_depth) {
+      if (checkWin(board, symbol).winner === symbol) {
         return 100 - depth;
-      } else if (checkWin(board).winner === 'O') {
+      } else if (checkWin(board, 'O').winner === 'O') {
         return -100 + depth;
       }
       return 0;
     }
+
     if (maximizing) {
       let best = -100;
       getAvailableMoves(board).forEach(index => {

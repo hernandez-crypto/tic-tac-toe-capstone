@@ -7,7 +7,7 @@ export default class TTTOffline extends Component {
   render() {
     return (
       <Section className="TTTOffline">
-        <Link to="/tic-tac-toe/online">
+        <Link to="/online">
           <h3>Play Online</h3>
         </Link>
         <p>Unbeatable AI coming soon</p>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Board from './Gameboard/Board/Board';
 import Legend from './Gameboard/Legend/Legend';
 import ComputerPlayer from './ComputerPlayer';
+import GameModeSelector from './Gameboard/GameModeSelector/GameModeSelector';
 import './Tic-Tac-Toe.css';
 
 export default class TicTacToe extends Component {
@@ -170,19 +171,33 @@ export default class TicTacToe extends Component {
     }
   }
 
+  selectBotDifficulty = ev => {
+    this.setState({
+      playerTwo: {
+        ...this.state.playerTwo,
+        computer: ev.target.value,
+      },
+    });
+  };
+
   render() {
+    let { currentPlayer, board, playerOne, playerTwo, round } = this.state;
     return (
       <div className="tic-tac-toe-board">
         <Board
           setChoice={this.setChoice}
-          currentPlayer={this.state.currentPlayer}
-          board={this.state.board}
+          currentPlayer={currentPlayer}
+          board={board}
         />
         <Legend
-          currentPlayer={this.state.currentPlayer}
-          playerOne={this.state.playerOne.score}
-          playerTwo={this.state.playerTwo.score}
-          round={this.state.round}
+          currentPlayer={currentPlayer}
+          playerOne={playerOne.score}
+          playerTwo={playerTwo.score}
+          round={round}
+        />
+        <GameModeSelector
+          selectBotDifficulty={this.selectBotDifficulty}
+          Computer={playerTwo.computer}
         />
       </div>
     );
