@@ -25,7 +25,7 @@ export default class TicTacToe extends Component {
   };
 
   componentDidMount() {
-    this.computer = new ComputerPlayer(this.setChoice);
+    this.computer = new ComputerPlayer(this.setChoice, -1);
   }
 
   handleEndGame = winner => {

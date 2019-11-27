@@ -37,7 +37,7 @@ function checkWin(board, player) {
   ];
   winCombos.forEach(item => {
     let [a, b, c] = item;
-    if ((board[a] && board[b] && board[c]) === player) {
+    if (board[a] === player && board[b] === player && board[c] === player) {
       return { winner: player, combo: [a, b, c] };
     }
   });
@@ -57,7 +57,8 @@ export default class ComputerPlayer {
       case 2:
         return this.mediumMode(board);
       case 3:
-        return this.hardMode(board, maximizing, 0);
+        this.setChoice(this.hardMode(board, maximizing, 0));
+        return;
       default:
         this.easyMode(board);
     }
@@ -106,6 +107,7 @@ export default class ComputerPlayer {
         let arr;
         let rand;
         let ret;
+
         if (typeof this.nodes_map.get(best) === 'string') {
           arr = this.nodes_map.get(best).split(',');
           rand = Math.floor(Math.random() * arr.length);
@@ -124,7 +126,7 @@ export default class ComputerPlayer {
         let boardCopy = [...board];
         boardCopy[index] = 'X';
         let node_value = this.hardMode(boardCopy, true, depth + 1);
-        best = Math.max(best, node_value);
+        best = Math.min(best, node_value);
         if (depth === 0) {
           let moves = this.nodes_map.has(node_value)
             ? `${this.nodes_map.get(node_value)},${index}`
@@ -136,6 +138,7 @@ export default class ComputerPlayer {
         let arr;
         let rand;
         let ret;
+
         if (typeof this.nodes_map.get(best) == 'string') {
           arr = this.nodes_map.get(best).split(',');
           rand = Math.floor(Math.random() * arr.length);
@@ -145,6 +148,7 @@ export default class ComputerPlayer {
         }
         return ret;
       }
+
       return best;
     }
   };
