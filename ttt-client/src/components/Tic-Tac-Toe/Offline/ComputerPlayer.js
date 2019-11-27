@@ -107,7 +107,6 @@ export default class ComputerPlayer {
         let arr;
         let rand;
         let ret;
-
         if (typeof this.nodes_map.get(best) === 'string') {
           arr = this.nodes_map.get(best).split(',');
           rand = Math.floor(Math.random() * arr.length);
@@ -117,7 +116,6 @@ export default class ComputerPlayer {
         }
         return ret;
       }
-
       return best;
     }
     if (!maximizing) {
@@ -138,7 +136,6 @@ export default class ComputerPlayer {
         let arr;
         let rand;
         let ret;
-
         if (typeof this.nodes_map.get(best) == 'string') {
           arr = this.nodes_map.get(best).split(',');
           rand = Math.floor(Math.random() * arr.length);
@@ -148,7 +145,6 @@ export default class ComputerPlayer {
         }
         return ret;
       }
-
       return best;
     }
   };
